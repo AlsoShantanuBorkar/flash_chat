@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/services/firebase_provider.dart';
+import 'package:flash_chat/widgets/chat_bubble.dart';
 import 'package:flash_chat/widgets/send_message_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flash_chat/constants.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -31,19 +28,16 @@ class ChatScreenState extends State<ChatScreen> {
               onPressed: () async => await firebaseInstance.signOutUser()),
         ],
         title: const Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             StreamBuilder(
               stream: firebaseInstance.getSnapshots(),
               builder: ((context, snapshot) {
                 if (snapshot.hasData) {
-                  final List<ListTile> message =
-                      getMessages(snapshot) as List<ListTile>;
+                  final List<ChatBubble> message = getMessages(snapshot);
                   return ListView(
                     shrinkWrap: true,
                     children: message,
@@ -59,12 +53,15 @@ class ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  List getMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<ChatBubble> getMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
     // ignore: unnecessary_cast
-    final List messages = snapshot.data!.docs
-        .map((doc) => ListTile(
-            title: Text(doc["text"]),
-            subtitle: Text('From: ${doc["sender"].toString()}')))
+    final List<ChatBubble> messages = snapshot.data!.docs
+        .map((doc) => ChatBubble(
+              sender: doc['sender'],
+              text: doc['text'],
+              isSenderUser:
+                  doc['sender'] == FirebaseAuth.instance.currentUser!.email,
+            ))
         .toList();
     return messages;
   }

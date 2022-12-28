@@ -1,4 +1,4 @@
-import 'package:flash_chat/constants.dart';
+
 import 'package:flash_chat/services/firebase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

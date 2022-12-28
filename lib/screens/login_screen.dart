@@ -19,8 +19,7 @@ class LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final FirebaseService authInstance =
-        Provider.of<FirebaseService>(context);
+    final FirebaseService authInstance = Provider.of<FirebaseService>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -29,7 +28,7 @@ class LoginScreenState extends State<LoginScreen> {
           key: _loginFormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 height: 200.0,
@@ -88,19 +87,22 @@ class LoginScreenState extends State<LoginScreen> {
                 "Don't Have An Account?",
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
-                width: 100,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegistrationScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Register")),
-              )
+              ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll<Color>(Colors.green)),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RegistrationScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(color: Colors.white),
+                  ))
             ],
           ),
         ),
