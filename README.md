@@ -1,6 +1,6 @@
 # flash_chat
 
-A new Flutter project.
+Part of Angela Yu's Flutter Course
 
 ## Getting Started
 
