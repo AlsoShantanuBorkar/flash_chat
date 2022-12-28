@@ -1,6 +1,6 @@
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
-import 'package:flash_chat/services/firebase_provider.dart';
+import 'package:flash_chat/services/firebase_service.dart';
 import 'package:flash_chat/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +30,11 @@ class LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 200.0,
-                child: Image.asset('images/logo.png'),
+              Flexible(
+                child: Image.asset(
+                  'images/logo.png',
+                  height: 200,
+                ),
               ),
               const SizedBox(
                 height: 48.0,
@@ -88,21 +90,22 @@ class LoginScreenState extends State<LoginScreen> {
                 textAlign: TextAlign.center,
               ),
               ElevatedButton(
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.green)),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegistrationScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(color: Colors.white),
-                  ))
+                style: const ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll<Color>(Colors.green)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegistrationScreen(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  "Register",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ],
           ),
         ),

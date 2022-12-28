@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flash_chat/services/firebase_provider.dart';
+import 'package:flash_chat/services/firebase_service.dart';
 import 'package:flash_chat/widgets/auth_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +17,9 @@ class FlashChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseService authInstance =
-        FirebaseService(authinstance: FirebaseAuth.instance,firestoreInstance:FirebaseFirestore.instance);
+    final FirebaseService authInstance = FirebaseService(
+        authinstance: FirebaseAuth.instance,
+        firestoreInstance: FirebaseFirestore.instance);
     return MultiProvider(
       providers: [
         StreamProvider<User?>(

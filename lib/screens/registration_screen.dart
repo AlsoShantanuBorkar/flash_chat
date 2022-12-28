@@ -1,4 +1,4 @@
-import 'package:flash_chat/services/firebase_provider.dart';
+import 'package:flash_chat/services/firebase_service.dart';
 import 'package:flash_chat/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
