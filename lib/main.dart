@@ -1,25 +1,42 @@
-import 'package:flash_chat/screens/chat_screen.dart';
-import 'package:flash_chat/screens/login_screen.dart';
-import 'package:flash_chat/screens/registration_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flash_chat/services/firebase_provider.dart';
+import 'package:flash_chat/widgets/auth_wrapper.dart';
 import 'package:flutter/material.dart';
-import 'package:flash_chat/screens/welcome_screen.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const FlashChat());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const FlashChat());
+}
 
 class FlashChat extends StatelessWidget {
   const FlashChat({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const WelcomeScreen(),
-      initialRoute: WelcomeScreen.id,
-      routes: {
-        WelcomeScreen.id: (context) => const WelcomeScreen(),
-        LoginScreen.id: (context) => const LoginScreen(),
-        RegistrationScreen.id: (context) => const RegistrationScreen(),
-        ChatScreen.id: (context) => const ChatScreen(),
-      },
+    final FirebaseService authInstance =
+        FirebaseService(authinstance: FirebaseAuth.instance,firestoreInstance:FirebaseFirestore.instance);
+    return MultiProvider(
+      providers: [
+        StreamProvider<User?>(
+          initialData: null,
+          create: (context) => authInstance.userState,
+        ),
+        Provider<FirebaseService>(
+          create: (context) => authInstance,
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flash Chat',
+        theme: ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: const AuthWrapper(),
+      ),
     );
   }
 }
